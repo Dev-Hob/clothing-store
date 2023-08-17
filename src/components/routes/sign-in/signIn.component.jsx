@@ -1,4 +1,5 @@
 import { signInWithGooglePopup, create_user_document_from_auth } from "../../../utils/firebase/firebase.utils"
+import SignUpForm from "../../sign-up-form/SignUpForm.component";
 
 export default function SignIn() {
 
@@ -7,11 +8,16 @@ export default function SignIn() {
     console.log(user)
     create_user_document_from_auth(user);
   } 
+ 
+  // const logInWithGoogleRedirect = async() => {
+  //   await signInWithGoogleRedirect()
+  // } 
 
   return (
     <div>
     <h1>Sign In Page</h1>
     <button onClick={logInWithGoogle}>Sign In with Google</button>
+    <SignUpForm />
     </div>
   )
 }

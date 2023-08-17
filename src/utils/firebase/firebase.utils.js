@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider} from "firebase/auth"
+import { getAuth, signInWithRedirect, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "firebase/auth"
 import {getFirestore, doc, getDoc, setDoc } from "firebase/firestore"
 // import { getAnalytics } from "firebase/analytics";
 // TODO: Add SDKs for Firebase products that you want to use
@@ -28,10 +28,25 @@ provider.setCustomParameters({
 
 export const auth = getAuth();
 export const signInWithGooglePopup = () => signInWithPopup(auth, provider) 
+export const signInWithGoogleRedirect = () => signInWithRedirect(auth, provider) 
+export const signInWithEmail = async (email, password) => {
+  if(!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password)
+}
+export const signUpWithEmailAndPassword = async (email, password) => {
+  if(!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password)
+}
+
+
 
 export const db = getFirestore();
 
+
+
+
 export const create_user_document_from_auth = async (userAuth) => {
+  if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
 
   console.log(userDocRef);
