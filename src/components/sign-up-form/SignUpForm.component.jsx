@@ -53,7 +53,7 @@ export default function SignUpForm() {
   return (
     <div className="sign-up-container">
     <h2>Don't have an account?</h2>
-    <span>Sign Up</span>
+    <span>Sign in with your email and password</span>
     <form onSubmit={onSubmitHandle}>
       <FormInput label={'Display Name'} type="text" name="displayName" minLength={3} value={displayName} onChange={handleChange} required/>
       <FormInput label={'Email'} type="email" name="email" value={email} onChange={handleChange} required/>
@@ -61,7 +61,7 @@ export default function SignUpForm() {
       <FormInput label={'Confirm Password'} type="password" name="confirmPassword" minLength={6} value={confirmPassword} onChange={handleChange} required/>
       <Button type="submit">Submit</Button>
     </form>
-    {error.status && <p>{error.message}</p>}
+    {error.status && <p className="error">{error.message}</p>}
     </div>
   )
 }
