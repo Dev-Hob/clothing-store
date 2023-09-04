@@ -1,7 +1,8 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { create_user_document_from_auth, signInWithEmail, signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
 import Button from "../button/button.component";
 import FormInput from "../form-input/formInput.component";
+
 
 const formInitialState = {
     email: "",
@@ -66,7 +67,6 @@ export default function SignIn() {
   const logInWithGoogle = async () => {
     try {    
         const { user } = await signInWithGooglePopup();
-        create_user_document_from_auth(user);
     } catch (error) {
         console.log(error)
     }
