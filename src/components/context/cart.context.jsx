@@ -1,18 +1,33 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 const INITIAL_CART_VALUE = {
   cartItems: [],
   cartToggle: false,
   setCartItems: () => {},
   setCartToggle: () => {},
+  quantityTotal: 0
 };
+
+
 
 export const CartContext = createContext(INITIAL_CART_VALUE);
 
 export const CartContextProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
   const [cartToggle, setCartToggle] = useState(false);
+  const [quantityTotal, setQuantityTotal] = useState(0)
+  // const quantityTotal = (cartItems.length >= 1)? cartItems.reduce( (acc, product) => {
+  //   return acc + product.quantity;
+  // }) : 0;
 
+  useEffect(() => {
+    const newCartCount = cartItems.reduce( (acc, product) => {
+      return acc + product.quantity;
+    }, 0)
+    setQuantityTotal(newCartCount)
+
+  }, [cartItems])
+  
   const removeCartItem = (id) => {
     setCartItems((products) => {
       const newList = products.map((p) => {
@@ -25,10 +40,11 @@ export const CartContextProvider = ({ children }) => {
   };
 
   const addCartItem = (product) => {
-    setCartItems((cartItems) => {
-      const isExist = cartItems.find((p) => p.id === product.id);
-      if (!isExist) return [...cartItems, { ...product, quantity: 1 }];
-      const newList = cartItems.map((p) => {
+    console.log(typeof cartItems)
+    setCartItems((prevItems) => {
+      const isExist = prevItems.find((p) => p.id === product.id);
+      if (!isExist) return [...prevItems, { ...product, quantity: 1 }];
+      const newList = prevItems.map((p) => {
         if(p.id !== product.id) return p;
         return { ...p, quantity: p.quantity + 1 };
       });
@@ -43,6 +59,7 @@ export const CartContextProvider = ({ children }) => {
     setCartToggle,
     removeCartItem,
     addCartItem,
+    quantityTotal
   };
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
 };
