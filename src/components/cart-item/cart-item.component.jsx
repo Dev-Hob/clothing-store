@@ -1,10 +1,7 @@
-import { useContext } from "react";
-import { CartContext } from "../context/cart.context";
 import "./cart-item.style.scss"
 
 export default function CartItem({product}) {
-    const {imageUrl, name, quantity, price, id} = product;
-    const {removeCartItem} = useContext(CartContext)
+    const {imageUrl, name, quantity, price} = product;
     
   return (
     <div className="cart-item-container">
@@ -13,7 +10,6 @@ export default function CartItem({product}) {
             <span className="name">{name}</span>
             <span className="price">{quantity} x ${price}</span>
         </div>
-        <button onClick={ () => removeCartItem(id)}>X</button>
     </div>
   )
 }
