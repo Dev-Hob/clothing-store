@@ -1,6 +1,6 @@
 import {  useState } from "react";
-import { create_user_document_from_auth, signInWithEmail, signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
-import Button from "../button/button.component";
+import {  signInWithEmail, signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/formInput.component";
 
 
@@ -26,7 +26,7 @@ export default function SignIn() {
     if (password.length < 6)
         return setError({status:true, message: "Password shouldn't be less then 6 characters!"});
     try {
-        const response = await signInWithEmail(email, password);
+        await signInWithEmail(email, password);
         resetFormFields();
     } catch (err) {
       console.log("error signing up", err);
@@ -66,7 +66,7 @@ export default function SignIn() {
 
   const logInWithGoogle = async () => {
     try {    
-        const { user } = await signInWithGooglePopup();
+        await signInWithGooglePopup();
     } catch (error) {
         console.log(error)
     }
@@ -96,7 +96,7 @@ export default function SignIn() {
           <Button onClick={onSubmitHandle} type="submit">
           Sign In
           </Button>
-          <Button type='button' buttonType="google" onClick={logInWithGoogle}>Google Sign in
+          <Button type='button' buttonType={BUTTON_TYPE_CLASSES.google} onClick={logInWithGoogle}>Google Sign in
           </Button>
           </div>
         </form>

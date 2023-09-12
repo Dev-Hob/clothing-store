@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { create_user_document_from_auth, signUpWithEmailAndPassword } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/formInput.component";
-import "./signUpForm.style.scss"
 import Button from "../button/button.component";
+import { SignUpContainer } from "./signUpForm.style.jsx";
 
 const formInitialState = {
     displayName:"",
@@ -51,7 +51,7 @@ export default function SignUpForm() {
     setFormFields({...formFields, [name]: value })
   }
   return (
-    <div className="sign-up-container">
+    <SignUpContainer >
     <h2>Don't have an account?</h2>
     <span>Sign in with your email and password</span>
     <form onSubmit={onSubmitHandle}>
@@ -62,6 +62,6 @@ export default function SignUpForm() {
       <Button type="submit">Submit</Button>
     </form>
     {error.status && <p className="error">{error.message}</p>}
-    </div>
+    </SignUpContainer>
   )
 }

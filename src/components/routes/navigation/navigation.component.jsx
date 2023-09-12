@@ -1,5 +1,4 @@
-import { Link, Outlet } from "react-router-dom";
-import "./navigation.style.scss";
+import { Outlet } from "react-router-dom";
 import { ReactComponent as CrownLogo } from "../../../assets/crown.svg";
 import { useContext } from "react";
 import { UserContext } from "../../context/user.context";
@@ -7,6 +6,7 @@ import { signOutUser } from "../../../utils/firebase/firebase.utils";
 import CartIcon from "../../card-icon/cart-icon.component";
 import CartDropdown from "../../cart-dropdown/cart-dropdown.component";
 import { CartContext } from "../../context/cart.context";
+import { LogoContainer, NavLink, NavLinks, NavigationContainer } from "./navigation.style";
 
 export default function Navigation() {
   const { user, setUser } = useContext(UserContext);
@@ -18,30 +18,30 @@ export default function Navigation() {
   };
   return (
     <>
-      <div className="navigation">
-        <Link to={"/"} className="logo-container">
+      <NavigationContainer>
+        <LogoContainer to={"/"} className="logo-container">
           <CrownLogo />
-        </Link>
-        <div className="nav-links-container">
-          <Link className="nav-link" to={"/"}>
+        </LogoContainer>
+        <NavLinks>
+          <NavLink className="nav-link" to={"/"}>
             Home
-          </Link>
-          <Link className="nav-link" to={"/shop"}>
+          </NavLink>
+          <NavLink className="nav-link" to={"/shop"}>
             Shop
-          </Link>
+          </NavLink>
           {user ? (
-            <span className="nav-link" onClick={logOutHandler}>
+            <NavLink as='span' onClick={logOutHandler}>
               Sign Out
-            </span>
+            </NavLink>
           ) : (
-            <Link className="nav-link" to={"/auth"}>
+            <NavLink to={"/auth"}>
               Sign In
-            </Link>
+            </NavLink>
           )}
           <CartIcon />
-        </div>
+        </NavLinks>
         {cartToggle && <CartDropdown />}
-      </div>
+      </NavigationContainer>
       <Outlet />
     </>
   );

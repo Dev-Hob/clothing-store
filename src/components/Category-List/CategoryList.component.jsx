@@ -1,12 +1,45 @@
 import CategoryItem from "../categoryItem/Category-Item"
-import "./CategoryList.style.scss"
+import { CategoriesContainer } from "./CategoryList.style.jsx"
 
-export default function CategoryList({categories}) {
+const categories = [
+  {
+    "id": 1,
+    "title": "hats",
+    "imageUrl": "https://i.ibb.co/cvpntL1/hats.png",
+    'route': 'shop/hats'
+  },
+  {
+    "id": 2,
+    "title": "jackets",
+    "imageUrl": "https://i.ibb.co/px2tCc3/jackets.png",
+    'route': 'shop/jackets'
+  },
+  {
+    "id": 3,
+    "title": "sneakers",
+    "imageUrl": "https://i.ibb.co/0jqHpnp/sneakers.png",
+    'route': 'shop/sneakers'
+  },
+  {
+    "id": 4,
+    "title": "womens",
+    "imageUrl": "https://i.ibb.co/GCCdy8t/womens.png",
+    'route': 'shop/womens'
+  },
+  {
+    "id": 5,
+    "title": "mens",
+    "imageUrl": "https://i.ibb.co/R70vBrQ/men.png",
+    'route': 'shop/mens'
+  }
+];  
+
+export default function CategoryList() {
   return (
-    <div className="categories-container">
+    <CategoriesContainer>
     {categories.map( (category) => (
       <CategoryItem key={category.id} category={category} />
     ))}
-    </div>
+    </CategoriesContainer>
   )
 }
