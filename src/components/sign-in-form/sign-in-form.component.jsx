@@ -2,6 +2,8 @@ import {  useState } from "react";
 import {  signInWithEmail, signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/formInput.component";
+import { useContext } from "react";
+import { UserContext } from "../context/user.context";
 
 
 const formInitialState = {
@@ -18,6 +20,7 @@ export default function SignIn() {
     const [formFields, setFormFields] = useState(errorInitialState);
     const { email, password } = formFields;
     const [error, setError] = useState(errorInitialState);
+    const { setUser } = useContext(UserContext)
 
     
   const onSubmitHandle = async (event) => {
@@ -26,7 +29,9 @@ export default function SignIn() {
     if (password.length < 6)
         return setError({status:true, message: "Password shouldn't be less then 6 characters!"});
     try {
-        await signInWithEmail(email, password);
+        const { user } = await signInWithEmail(email, password);
+        setUser(user);
+        console.log(user)
         resetFormFields();
     } catch (err) {
       console.log("error signing up", err);
