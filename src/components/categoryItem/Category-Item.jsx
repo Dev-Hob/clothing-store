@@ -9,7 +9,7 @@ export default function CategoryItem( {category: {id, imageUrl, title, route}} )
   }
   return (
     <CategoryContainer key={id} onClick={onNavigateHandler}>
-       <BackgroundImage imageUrl= {imageUrl}/>
+       <BackgroundImage imageurl= {imageUrl}/>
        <CategoryBodyDiv >
           <h2>{title}</h2>
           <p>Shop Now</p>
