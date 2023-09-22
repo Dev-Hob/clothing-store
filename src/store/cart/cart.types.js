@@ -1,0 +1,4 @@
+export const CART_REDUCER_TYPES = {
+    CART_TOGGLE: "CART_TOGGLE",
+    SET_CART_ITEMS: "SET_CART_ITEMS",
+  };
