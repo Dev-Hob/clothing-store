@@ -10,3 +10,5 @@ export const selectCategoryMap = createSelector([selectCategories] , (category) 
     acc[title.toLowerCase()] = items;
     return acc;
   }, {}));
+  
+  export const selectCategoryIsLoading = createSelector([selectCategories], (cart) => cart.loading)
