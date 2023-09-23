@@ -1,5 +1,4 @@
 import { createAction } from "../../utils/createAction";
-import { getCategoriesAndDocuments } from "../../utils/firebase/firebase.utils";
 import { CATEGORY_MAP_REDUCERS_TYPES } from "./category.types";
 
 
@@ -12,13 +11,13 @@ export const setCategorySuccess = (categoryMap) =>
 export const setCategoryFailed = (error) =>
   createAction(CATEGORY_MAP_REDUCERS_TYPES.SET_CATEGORY_MAP_FAILED, error);
   
-
-  export const fetchCategoryMapAsync = () => async (dispatch) => {
-    dispatch(setCategoryStart())
-    try {
-      const categories = await getCategoriesAndDocuments();
-      dispatch(setCategorySuccess(categories))
-    } catch (error) {
-      dispatch(setCategoryFailed(error))
-    }
-  } 
+//we use Redux Saga instead of thunk so below function is commented.
+  // export const fetchCategoryMapAsync = () => async (dispatch) => {
+  //   dispatch(setCategoryStart())
+  //   try {
+  //     const categories = await getCategoriesAndDocuments();
+  //     dispatch(setCategorySuccess(categories))
+  //   } catch (error) {
+  //     dispatch(setCategoryFailed(error))
+  //   }
+  // } 

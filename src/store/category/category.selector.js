@@ -11,4 +11,4 @@ export const selectCategoryMap = createSelector([selectCategories] , (category) 
     return acc;
   }, {}));
   
-  export const selectCategoryIsLoading = createSelector([selectCategories], (cart) => cart.loading)
+  export const selectCategoryIsLoading = createSelector([selectCategoryReducer], (category) => category.loading)
