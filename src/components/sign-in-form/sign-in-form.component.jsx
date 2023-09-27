@@ -1,12 +1,10 @@
 import { useState } from "react";
-import {
-  signInWithEmail,
-  signInWithGooglePopup,
-} from "../../utils/firebase/firebase.utils";
+import { signInWithGooglePopup } from "../../utils/firebase/firebase.utils";
 import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/formInput.component";
-import { setUser } from "../../store/user/user.action";
-import { useDispatch } from "react-redux";
+import { emailSignInStart, googleSignInUserStart } from "../../store/user/user.action";
+import { useDispatch, useSelector } from "react-redux";
+import { selectUserError } from "../../store/user/user.selector";
 
 const formInitialState = {
   email: "",
@@ -20,40 +18,20 @@ const errorInitialState = {
 
 export default function SignIn() {
   const dispatch = useDispatch();
-  const [formFields, setFormFields] = useState(errorInitialState);
+  const [formFields, setFormFields] = useState(formInitialState);
   const { email, password } = formFields;
+  const userError = useSelector(selectUserError)
   const [error, setError] = useState(errorInitialState);
 
   const onSubmitHandle = async (event) => {
     event.preventDefault();
-    // write post request to a database.
     if (password.length < 6)
       return setError({
         status: true,
         message: "Password shouldn't be less then 6 characters!",
       });
-    try {
-      const { user } = await signInWithEmail(email, password);
-      dispatch(setUser(user));
-      resetFormFields();
-    } catch (err) {
-      console.log("error signing up", err);
-      switch (err.code) {
-        case "auth/wrong-password":
-          setError({ status: true, message: "Wrong email or password" });
-          break;
-        case "auth/user-not-found":
-          setError({ status: true, message: "User not found!" });
-          break;
-        case "auth/invalid-email":
-          setError({ status: true, message: "Invalid email entry!" });
-          break;
-        default:
-          console.log("err : ", err);
-          setError({ status: true, message: err.code });
-          break;
-      }
-    }
+    dispatch(emailSignInStart(email, password));
+    resetFormFields();
   };
 
   const resetFormFields = () => {
@@ -74,7 +52,7 @@ export default function SignIn() {
 
   const logInWithGoogle = async () => {
     try {
-      await signInWithGooglePopup();
+      dispatch(googleSignInUserStart())
     } catch (error) {
       console.log(error);
     }
@@ -113,7 +91,7 @@ export default function SignIn() {
           </Button>
         </div>
       </form>
-      {error.message && <p className="error">{error.message}</p>}
+      {(error.message || userError) && <p className="error">{error.message || userError.message}</p>}
     </div>
   );
 }

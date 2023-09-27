@@ -39,7 +39,11 @@ export const signUpWithEmailAndPassword = async (email, password) => {
 }
 
 export const signOutUser = async() => {
-  await signOut(auth);
+  try {
+    await signOut(auth)
+  } catch (error) {
+    throw error
+  }
 }
 
 export const onAuthStateChangedListener = (callback) => onAuthStateChanged(auth, callback);  
@@ -70,22 +74,35 @@ export const getCategoriesAndDocuments = async () => {
 }
 
 
-export const create_user_document_from_auth = async (userAuth) => {
+export const create_user_document_from_auth = async (userAuth) => { 
   if (!userAuth) return;
   const userDocRef = doc(db, "users", userAuth.uid);
 
   console.log(userDocRef);
   const userSnapshot = await getDoc(userDocRef);
-  console.log("User exist : ", userSnapshot.exists())
+  console.log("User exist : ", userSnapshot)
   if(!userSnapshot.exists()) {
     const date = new Date();
     const { displayName, email } = userAuth;
 
     try {
-      await setDoc(userDocRef, { displayName, email, date });
+       await setDoc(userDocRef, { displayName, email, date });
     } catch (error) {
       console.log("error was encountered while creating user : ", error.message)
     }
   }
+
+  return userSnapshot;
   
+}
+
+export const getCurrentUser = () => {
+  return new Promise( (resolve, reject) => {
+   const unsubscribe = onAuthStateChanged(auth, (userAuth) => {
+      unsubscribe();
+      resolve(userAuth)
+   },
+   reject
+   )
+  })
 }
